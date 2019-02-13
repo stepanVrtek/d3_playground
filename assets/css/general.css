@@ -23,6 +23,19 @@ body {
 
 .card-chart {
   min-height: 360px;
+  margin: 25px 25px;
+  min-width: 400px;
+  display: flex;
+}
+
+.chart-label {
+  width: 100px;
+}
+
+.chart {
+  width: calc(100% - 100px);
+  width: -moz-calc(100% - 100px);
+  width: -webkit-calc(100% - 100px);
 }
 
 .grid line {
@@ -62,11 +75,6 @@ body {
   /* gradient and fallback color */
   /* fill: url(#gradient-horizontal) gray; */
   fill: #3C8CDB;
-}
-
-svg {
-  margin: 25px 25px;
-  min-width: 400px;
 }
 
 ul {
