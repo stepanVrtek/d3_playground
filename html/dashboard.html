@@ -4,6 +4,7 @@
 <head>
     <title>Stefano charts - watch me piss on your dreams</title>
     <link rel="stylesheet" type="text/css" href="../assets/css/general.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/tooltip.css">
 </head>
 <body>
 
@@ -50,6 +51,7 @@
 
 <script src='https://d3js.org/d3.v4.min.js'></script>
 <script src='../assets/js/prototype.js'></script>
+<script src='../assets/js/d3_tooltip.js'></script>
 <script src='../assets/js/portfolio_allocation.js'></script>
 
 <script type="text/javascript">
@@ -79,7 +81,7 @@
       "label":"OTHER",
     }
   ];
-
+  d3.select("tooltip").on("hover", function() {console.log("hover")})
 
   d3.select("#show-bar1")
       .on('click', function () {

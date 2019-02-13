@@ -7,6 +7,13 @@ function renderPortfolioAllocation (data) {
   var barWidthCoef= 100;
   var gridLines = range(0, maxBar+5, 5);
 
+  var tooltip = d3.tooltip() // returns the tooltip function
+    .extent([[0,0],[chart_size.width,chart_size.height]]) // tells the tooltip how much area it has to work with
+    .tips(["value"],["Bar Name: "]) // tells the tooltip which properties to display in the tip and what to label thme
+    .fontSize(12) // sets the font size for the tooltip
+    .padding([8,4]) // sets the amount of padding in the tooltip rectangle
+    .margin([10,10]); // set the distance H and V to keep the tooltip from the mouse pointer
+
   var bar_chart = d3.select('#chart').append("g");
 
   bar_chart.selectAll("line")
@@ -18,18 +25,7 @@ function renderPortfolioAllocation (data) {
     .attr("y1", 0)      // y position of the first end of the line
     .attr("x2", function(d) {return barWidthCoef*d/maxChartValue + "%";})     // x position of the second end of the line
     .attr("y2", chart_size.height)    // y position of the second end of the line
-    .attr('transform', "translate(0,0)");
-
-  // bar_chart
-  //   .append("line")          // attach a line
-  //   .style("stroke", "black")  // colour the line
-  //   .attr("x1", "6.8%")     // x position of the first end of the line
-  //   .attr("y1", 0)      // y position of the first end of the line
-  //   .attr("x2", "6.8%")     // x position of the second end of the line
-  //   .attr("y2", chart_size.height)   // y position of the second end of the line
-  //   .attr('transform', function(d, i) {
-  //     return "translate(0,0)";
-  //   });
+    .attr('transform', "translate(0,0)")
 
   var bar = bar_chart
         .selectAll('rect')
@@ -38,10 +34,11 @@ function renderPortfolioAllocation (data) {
         .append('rect')
         .attr('width', function(d) {  return barWidthCoef*d.value/maxChartValue + "%"; })
         .attr('height', barHeight*barHeightCoef)
-        .attr("class", "bar-chart-bar")
+        .attr("class", "bar-chart-bar tooltip")
         .attr('transform', function(d, i) {
           return "translate(0," + (i + (1 - barHeightCoef)/2) * barHeight + ")";
-        });
+        })
+        .each(tooltip.events);
 
   // append label text
   var textChart = bar_chart.selectAll("text")
@@ -50,7 +47,6 @@ function renderPortfolioAllocation (data) {
 
   textChart.append("text")
       .text(function(d) {
-          // return "+ " + d.value.toFixed(2) + " %";
           return d.value.toFixed(2) + "%";
       })
       .attr("y", function(d, i) {
@@ -73,6 +69,9 @@ function renderPortfolioAllocation (data) {
         if (d.value/maxBar < 0.2) return "translate(10,0)";
         return "translate(-10,0)";
       });
+
+  // has to be called at the end otherwise erases first text label
+  bar_chart.call(tooltip) // draws the tooltip;
 
 }
 
@@ -130,5 +129,9 @@ function renderPortfolioAllocationLabelY (data, id) {
       .attr("alignment-baseline", "middle")
       .attr("class", "bar-chart-text")
       .attr('transform', "translate(0,0)")
+
+  var label_size = yAxis.node().getBoundingClientRect();
+  document.getElementById(id).parentElement.style.width
+    = (label_size.width + 20) + "px";
 
 }

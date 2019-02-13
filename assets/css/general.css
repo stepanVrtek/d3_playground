@@ -33,9 +33,7 @@ body {
 }
 
 .chart {
-  width: calc(100% - 100px);
-  width: -moz-calc(100% - 100px);
-  width: -webkit-calc(100% - 100px);
+  width: 100%;
 }
 
 .grid line {
@@ -53,6 +51,9 @@ body {
 .bar-chart-text {
   color: black;
   font-weight: 400;
+}
+
+.bar-hover {
 }
 
 .bar-chart-label-white {
