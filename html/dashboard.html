@@ -24,21 +24,26 @@
   </div>
 </div>
 
+<svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+  <linearGradient id="gradient-horizontal">
+    <stop offset="0%" stop-color="var(--color-stop-1)" />
+    <stop offset="50%" stop-color="var(--color-stop-2)" />
+    <stop offset="100%" stop-color="var(--color-stop-3)" />
+  </linearGradient>
+</svg>
+
 <div class="row mt" id="chart-row">
   <div class="card">
     <div class="card-header">
       <h3 id="chart-header">Click any button to render the chart</h3>
     </div>
     <div class="card-chart">
-      <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
-        <linearGradient id="gradient-horizontal">
-          <stop offset="0%" stop-color="var(--color-stop-1)" />
-          <stop offset="50%" stop-color="var(--color-stop-2)" />
-          <stop offset="100%" stop-color="var(--color-stop-3)" />
-        </linearGradient>
-      </svg>
-
-      <svg width='100%' height='360' class="hidden" id="chart"></svg>
+      <div class="chart-label">
+        <svg width='100%' height='360px' class="hidden" id="chart-label-y"></svg>
+      </div>
+      <div class="chart">
+        <svg width='100%' height='360px' class="hidden" id="chart"></svg>
+      </div>
     </div>
   </div>
 </div>
@@ -47,6 +52,54 @@
 <script src='../assets/js/prototype.js'></script>
 <script src='../assets/js/portfolio_allocation.js'></script>
 
+<script type="text/javascript">
+  var data = [
+    {
+      "value":25.00,
+      "label":"BTC",
+      "currency_id": "bitcoin"
+    },
+    {
+      "value":3.02,
+      "label":"LTC",
+      "currency_id": "litecoin"
+    },
+    {
+      "value":20.76,
+      "label":"LOOM",
+      "currency_id": "loom-network"
+    },
+    {
+      "value":30.90,
+      "label":"STEM",
+      "currency_id": "steem"
+    },
+    {
+      "value":22.00,
+      "label":"OTHER",
+    }
+  ];
+
+
+  d3.select("#show-bar1")
+      .on('click', function () {
+          if (d3.select("#chart-row").attr("chart") == "portfolio_allocation") return;
+          else d3.select('#chart').selectAll('svg').remove();
+
+          var chart = d3.select("#chart");
+          var chartLabelY = d3.select("#chart-label-y");
+
+          d3.select("#chart-row").attr("chart", "portfolio_allocation");
+          d3.select("#chart-header")
+            .text("Portfolio allocation");
+
+          chart.classed("hidden", false);
+          chartLabelY.classed("hidden", false);
+
+          renderPortfolioAllocation(data);
+          renderPortfolioAllocationLabelY(data, "chart-label-y");
+      });
+</script>
 </body>
 
 </html>
